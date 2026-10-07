@@ -1,0 +1,57 @@
+# ─────────────────────────────────────────────
+#   CactusGuard  ·  minimal staff suite
+#   Punishments · Reports · Staff notes · Discord
+# ─────────────────────────────────────────────
+
+# Discord log bridge. Paste a webhook URL:
+# Server Settings > Integrations > Webhooks > New Webhook > Copy URL
+discord:
+  enabled: false
+  webhook-url: ""
+  username: "CactusGuard"
+  avatar-url: ""
+  # Turn individual log categories on/off
+  log:
+    punishments: true
+    reports: true
+    notes: true
+    system: true
+
+punishments:
+  # Players must have been seen on the server before they can be punished offline.
+  # Reason used when staff do not give one:
+  default-reason: "No reason given"
+  # One-click reasons shown in the GUI (max 18). Staff can always type a custom one.
+  reason-presets:
+    - "Hacking / cheating"
+    - "Spamming chat"
+    - "Griefing"
+    - "Harassment"
+    - "Advertising"
+    - "Exploiting a bug"
+    - "Inappropriate language"
+    - "Ban evasion"
+  # Show the "unban" appeal line on ban screens (leave empty to hide)
+  appeal-text: ""
+  # Broadcast punishments to everyone (true) or only to staff with cactusguard.notify (false)
+  public-broadcast: true
+  # Auto-escalation: after N warnings, apply an action. Set warn-threshold to 0 to disable.
+  warn-threshold: 3
+  warn-threshold-action: "tempmute"   # tempmute | tempban | kick
+  warn-threshold-duration: "1h"       # used by tempmute / tempban
+
+reports:
+  # Seconds a player must wait between reports
+  cooldown-seconds: 120
+  # Max open reports one player can have at the same time
+  max-open-per-player: 3
+  # Minimum reason length
+  min-reason-length: 5
+  # Allow players to report themselves
+  allow-self-report: false
+  # Ping staff with a sound when a report arrives
+  notify-sound: "BLOCK_NOTE_BLOCK_CHIME"
+
+notes:
+  # Warn staff on join when a player has staff notes on file
+  alert-on-join: true

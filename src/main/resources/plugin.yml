@@ -1,0 +1,87 @@
+name: CactusGuard
+version: '${project.version}'
+main: dev.cactusguard.CactusGuard
+api-version: '1.21'
+authors: [CactusGuard]
+description: "Minimalistic staff suite: punishments, reports, staff notes and a Discord log bridge."
+website: https://github.com/cravewhoo/CactusGuard
+folia-supported: false
+libraries:
+  - org.xerial:sqlite-jdbc:3.46.1.3
+
+commands:
+  cactusguard:
+    description: Open the CactusGuard staff menu
+    usage: /<command> [players|reports|history|notes|reload|stats|<player>]
+    aliases: [cg]
+  ban:
+    description: Permanently ban a player
+    usage: /<command> <player> [reason]
+  tempban:
+    description: Temporarily ban a player
+    usage: /<command> <player> <duration> [reason]
+    aliases: [tban]
+  unban:
+    description: Unban a player
+    usage: /<command> <player>
+    aliases: [pardon]
+  mute:
+    description: Permanently mute a player
+    usage: /<command> <player> [reason]
+  tempmute:
+    description: Temporarily mute a player
+    usage: /<command> <player> <duration> [reason]
+    aliases: [tmute]
+  unmute:
+    description: Unmute a player
+    usage: /<command> <player>
+  warn:
+    description: Warn a player
+    usage: /<command> <player> [reason]
+  kick:
+    description: Kick a player
+    usage: /<command> <player> [reason]
+  report:
+    description: Report a player to staff
+    usage: /<command> <player> <reason>
+
+permissions:
+  cactusguard.admin:
+    description: Full access to CactusGuard
+    default: op
+    children:
+      cactusguard.use: true
+      cactusguard.punish: true
+      cactusguard.unpunish: true
+      cactusguard.history: true
+      cactusguard.notify: true
+      cactusguard.reports.manage: true
+      cactusguard.notes: true
+      cactusguard.bypass: true
+  cactusguard.use:
+    description: Open the staff menu (/cg)
+    default: op
+  cactusguard.punish:
+    description: Ban, mute, warn and kick
+    default: op
+  cactusguard.unpunish:
+    description: Unban and unmute
+    default: op
+  cactusguard.history:
+    description: View history and active punishments
+    default: op
+  cactusguard.notify:
+    description: Receive staff alerts (punishments, new reports)
+    default: op
+  cactusguard.reports.manage:
+    description: View and manage reports
+    default: op
+  cactusguard.notes:
+    description: Read and write staff notes
+    default: op
+  cactusguard.bypass:
+    description: Cannot be punished
+    default: false
+  cactusguard.report:
+    description: Submit reports
+    default: true

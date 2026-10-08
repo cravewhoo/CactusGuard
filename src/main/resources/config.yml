@@ -50,7 +50,7 @@ reports:
   # Allow players to report themselves
   allow-self-report: false
   # Ping staff with a sound when a report arrives
-  notify-sound: "BLOCK_NOTE_BLOCK_CHIME"
+  notify-sound: "block.note_block.chime"
 
 notes:
   # Warn staff on join when a player has staff notes on file

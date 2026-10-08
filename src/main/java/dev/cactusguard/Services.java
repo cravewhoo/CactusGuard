@@ -11,12 +11,15 @@ import dev.cactusguard.util.Messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -250,16 +253,25 @@ public final class Services {
 
     public void clearCooldown(UUID reporter) { reportCooldown.remove(reporter); }
 
+    /**
+     * The report ping from config. Accepts "block.note_block.chime" or the old "BLOCK_NOTE_BLOCK_CHIME".
+     * @return the sound, or null when unset or unknown (the ping is then skipped)
+     */
+    private Sound notifySound() {
+        String raw = config().getString("reports.notify-sound", "block.note_block.chime");
+        if (raw == null || raw.isBlank()) return null;
+        NamespacedKey key = NamespacedKey.fromString(raw.trim().toLowerCase(Locale.ROOT).replace('_', '.'));
+        return key == null ? null : Registry.SOUNDS.get(key);
+    }
+
     public void announceReport(Report r) {
         alertStaff(msg.msg("report.alert", "id", String.valueOf(r.id()), "target", r.targetName(),
                 "reporter", r.reporterName(), "reason", r.reason()));
-        try {
-            Sound sound = Sound.valueOf(config().getString("reports.notify-sound", "BLOCK_NOTE_BLOCK_CHIME"));
+        Sound sound = notifySound();
+        if (sound != null) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.hasPermission("cactusguard.reports.manage")) p.playSound(p.getLocation(), sound, 1f, 1.4f);
             }
-        } catch (IllegalArgumentException ignored) {
-            // bad sound name in config: skip the ping
         }
         Map<String, String> f = new LinkedHashMap<>();
         f.put("Reported", r.targetName());
